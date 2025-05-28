@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Fingerprint File Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 3rem;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        label,
+        input,
+        button {
+            font-size: 1rem;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+
+        .buttons {
+            margin-top: 1rem;
+        }
+
+        button {
+            margin: 0.5rem 0.25rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        input[type="text"] {
+            padding: 0.4rem;
+            width: 100%;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Generate Fingerprinted Files</h1>
+        <form id="downloadForm">
+            <label for="user_id">Enter your User ID:</label>
+            <input type="text" id="user_id" name="user_id" placeholder="22B1NUM...." required>
+
+            <div class="buttons">
+                <button type="button" onclick="downloadFile('pdf')">Download PDF</button>
+                <button type="button" onclick="downloadFile('epub')">Download EPUB</button>
+                <button type="button" onclick="downloadFile('docx')">Download DOCX</button>
+            </div>
+        </form>
+    </div>
+
+    <h2>Extract Fingerprint from File</h2>
+    <form action="/extract_fingerprint" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".pdf,.docx" required>
+        <button type="submit">Extract Fingerprint</button>
+    </form>
+
+    <script>
+        function downloadFile(type) {
+            const userId = document.getElementById("user_id").value.trim();
+            if (!userId) {
+                alert("Please enter your User ID.");
+                return;
+            }
+            window.location.href = `/download/${type}?user_id=${encodeURIComponent(userId)}`;
+        }
+    </script>
+</body>
+
+</html>
